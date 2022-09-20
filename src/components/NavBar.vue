@@ -1,14 +1,14 @@
 <template>
   <div class="container-fluid">
-    <nav class="navbar nav m-0 p-0 navbar-expand-lg navbar-light yellow row flex-wrap">
+    <nav class="nav m-0 p-0 navbar-expand-lg navbar-light yellow row flex-wrap">
       <div class="d-flex nav__one justify-content-between p-0 col-12">
-        <a class="nav__logo-link d-flex justify-content-center align-items-center"
-          ><img src="../assets/logo.png" class="nav__logo d-none d-md-inline" alt=""
+        <a class="nav__logo-link ml-center"
+          ><img src="../assets/img/logo.png" class="nav__logo d-none d-md-inline" alt=""
         /></a>
-        <a class="nav__logo-link d-flex justify-content-center align-items-center">
-          <img src="../assets/logo-mobile.png" class="nav__logo--mobile d-md-none" alt="" />
+        <a class="nav__logo-link ml-center">
+          <img src="../assets/img/logo-mobile.png" class="nav__logo--mobile d-md-none" alt="" />
         </a>
-        <form class="nav__form d-flex justify-content-center align-items-center">
+        <form class="nav__form ml-center">
           <button class="nav__search-icon">
             <svg
               stroke="currentColor"
@@ -24,7 +24,12 @@
               ></path>
             </svg>
           </button>
-          <input type="search" placeholder="Estoy buscando..." class="w-100 nav__search" />
+          <input
+            type="search"
+            maxlength="120"
+            placeholder="Estoy buscando..."
+            class="w-100 nav__search"
+          />
         </form>
         <div class="d-flex align-items-center m-0">
           <button
@@ -35,11 +40,12 @@
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            @click="menuOpen()"
           >
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="nav__cart d-flex justify-content-center align-items-center">
+          <div class="nav__cart ml-center">
             <svg
               stroke="currentColor"
               fill="none"
@@ -58,9 +64,13 @@
           </div>
         </div>
       </div>
-      <div class="d-flex nav__two w-100 flex-column align-items-between">
-        <div class="d-flex nav__location justify-content-between pb-1">
-          <p class="m-0 nav__location__text">
+
+      <div class="d-flex nav__two w-100 flex-column justify-content-center align-items-between">
+        <div
+          v-bind:class="isCollapse ? 'd-flex' : 'd-none'"
+          class="nav__location pb-1 align-items-center justify-content-between"
+        >
+          <p class="d-flex align-items-center m-0 nav__location__text">
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -90,19 +100,15 @@
             >Enviar a<span class="m-0 pl-1">Santiago Centro</span>
           </p>
 
-          <a class="p-0 nav__location__button">></a>
+          <span class="p-0 nav__location__button">></span>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div class="welcome">
             <div class="welcome__box d-flex">
-              <div class="welcome__profile">
-                <svg
-                  class="img-fluid welcome__img"
-                  width="28"
-                  height="35"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+              <div class="welcome__profile mr-3">
+                <svg class="welcome__img" width="35" height="35" xmlns="http://www.w3.org/2000/svg">
                   <path
+                    class="text-center"
                     d="M27.343 33.706l-1.356.64A13.25 13.25 0 0 0 14 26.75c-5.17 0-9.8 2.988-11.978 7.578l-1.356-.643A14.75 14.75 0 0 1 14 25.25a14.75 14.75 0 0 1 13.343 8.456zM14 21.75C8.063 21.75 3.25 16.937 3.25 11S8.063.25 14 .25 24.75 5.063 24.75 11 19.937 21.75 14 21.75zm0-1.5a9.25 9.25 0 1 0 0-18.5 9.25 9.25 0 0 0 0 18.5zm0-2.5v-1.5a5.25 5.25 0 1 0 0-10.5v-1.5a6.75 6.75 0 0 1 0 13.5z"
                     fill="#BBB"
                     fill-rule="nonzero"
@@ -110,14 +116,14 @@
                 </svg>
               </div>
               <div class="welcome__text">
-                <h3 class="welcome__title">Bienvenido</h3>
-                <p class="welcome__paragraph p-1">
+                <h3 class="welcome__title m-0">Bienvenido</h3>
+                <p class="welcome__paragraph">
                   Ingresa a tu cuenta para ver tus compras, favoritos, etc.
                 </p>
               </div>
             </div>
-            <div class="welcome__buttons col-12">
-              <button class="btn">Ingresa</button><button class="btn">Crea tu cuenta</button>
+            <div class="welcome__buttons d-flex justify-content-between align-items-center p-0">
+              <a class="btn-primary">Ingresa</a><a class="btn-secondary">Crea tu cuenta</a>
             </div>
           </div>
 
@@ -158,11 +164,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: 'NavBar',
+  data() {
+    return {
+      isCollapse: true,
+    };
+  },
+  methods: {
+    menuOpen() {
+      this.isCollapse ? (this.isCollapse = false) : (this.isCollapse = true);
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-*,
+body {
+  font-family: 'Proxima Nova', -apple-system, Roboto, Arial, sans-serif, sans-serif;
+  background-color: $base-color;
+}
+
 .container-fluid {
   margin: 0;
   padding: 0;
@@ -180,7 +202,7 @@ export default {};
 }
 .nav {
   &__one {
-    height: 48px;
+    height: 50px;
     border-bottom: #e1d87e 1px solid;
   }
   &__logo--mobile {
@@ -195,56 +217,83 @@ export default {};
     border-radius: 0% 5% 5% 0%;
     border: none;
     height: 32px;
+    font-family: inherit;
 
     &::placeholder {
-      font-size: 12px;
-      color: #8e9781;
+      font-size: 16px;
+      color: #bfbfbf;
+      font-family: inherit;
     }
     &-icon {
       background-color: #fff;
+      color: #bfbfbf;
       border-radius: 5% 0% 0% 5%;
       font-size: 16px;
       border: none;
       height: 32px;
       width: 48px;
     }
-
-    &__location {
-      color: #736c28;
-      &__button {
-        color: #736c28;
-        &:hover {
-          color: #736c28;
-        }
-      }
-    }
   }
   &__two {
     color: #736c28;
-    padding: 0px 5px;
+    padding: 5px 5px;
+  }
+  &__location {
+    color: #736c28;
+
+    &__text {
+      font-size: 13px;
+    }
+    &__button {
+      width: 20px;
+      font-weight: 500;
+      color: #c1b74d;
+      border-color: #c1b74d;
+      font-weight: bold;
+      &:hover {
+        color: #736c28;
+      }
+    }
   }
 }
 
 .welcome {
+  padding: 12px 16px;
+
   &__text {
     text-align: left;
+    font-weight: 300;
+    font-size: 14px;
   }
   &__title {
     font-size: 16px;
+    color: #333333;
+    font-weight: 600;
+    margin: 4px 0;
+    line-height: 1;
   }
   &__paragraph {
     font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+    margin: 0;
   }
   &__profile {
-    text-align: center;
     height: 56px;
     width: 56px;
     background-color: #ededed;
     border-radius: 50%;
+    float: left;
+    margin-right: 16px;
+    text-align: center;
   }
   &__img {
-    text-align: center;
     margin-top: 9px;
+    margin-left: 14.5px;
+    height: 56px;
+    width: 56px;
+  }
+  &__buttons {
+    margin-top: 14px;
   }
 }
 </style>
